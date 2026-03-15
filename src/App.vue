@@ -18,17 +18,17 @@
 
         <ul class="flex flex-col gap-6">
           <li>
-            <CheckboxInput title="Category" :options="['smartphones', 'tables', 'laptops', 'Accessories']"
+            <CheckboxInput title="Category" :options="Object.values(Category)"
               v-model="filters.categories" />
           </li>
           <li>
             <RangeInput :min="0" :max="500" title="Price Range"></RangeInput>
           </li>
           <li>
-            <CheckboxInput title="Brand" :options="['apple', 'samsung', 'google', 'xiaomi']" v-model="filters.brands" />
+            <CheckboxInput title="Brand" :options="Object.values(Brand)" v-model="filters.brands" />
           </li>
           <li>
-            <CheckboxInput title="Condition" :options="['new', 'refurbished', 'used']" v-model="filters.brands" />
+            <CheckboxInput title="Condition" :options="Object.values(Condition)" v-model="filters.conditions" />
           </li>
         </ul>
       </fieldset>
@@ -56,32 +56,35 @@
 </template>
 
 <script setup lang="ts">
-import DefaultLayout from '@/components/templates/DefaultLayout.vue'
-import ProductCard from '@/components/molecules/ProductCard.vue'
-import SearchInput from '@/components/atoms/SearchInput.vue';
+import DefaultLayout from "@/components/templates/DefaultLayout.vue";
+import ProductCard from "@/components/molecules/ProductCard.vue";
+import SearchInput from "@/components/atoms/SearchInput.vue";
 
-import { computed, reactive, ref, watch } from 'vue';
-import { useDebounce } from '@/composables/useDebounce';
-import CheckboxInput from '@/components/molecules/CheckboxInput.vue';
-import Text from '@/components/atoms/Text.vue';
-import RangeInput from '@/components/molecules/RangeInput.vue';
-import { useProducts } from '@/composables/useProducts';
-import type { ProductQuery } from '@/types/product';
+import { computed, reactive, ref } from "vue";
+import { useDebounce } from "@/composables/useDebounce";
+import CheckboxInput from "@/components/molecules/CheckboxInput.vue";
+import Text from "@/components/atoms/Text.vue";
+import RangeInput from "@/components/molecules/RangeInput.vue";
+import { useProducts } from "@/composables/useProducts";
+import { Brand, Category, Condition, type ProductQuery } from "@/types/product";
 
-const searchQuery = ref('')
-const debouncedSearchQuery = useDebounce(searchQuery)
+const searchQuery = ref("");
+const debouncedSearchQuery = useDebounce(searchQuery);
 
 const filters = reactive({
-  categories: [],
-  brands: [],
-  conditions: []
-})
+	categories: [],
+	brands: [],
+	conditions: [],
+});
 
 const productsQuery = computed<ProductQuery>(() => ({
-  limit: 5,
-  offset: 0,
-  search: debouncedSearchQuery.value,
-}))
+	limit: 5,
+	offset: 0,
+	search: debouncedSearchQuery.value,
+	categories: filters.categories,
+	brands: filters.brands,
+	conditions: filters.conditions,
+}));
 
-const { products, total, loading, error } = useProducts(productsQuery)
+const { products, total, loading, error } = useProducts(productsQuery);
 </script>
