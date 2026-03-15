@@ -26,9 +26,14 @@ export default {
         "card-image": "12.5rem"
       },
       colors: {
-        'primary-green': '#036256',
-        'secondary-green': '#0E8663',
-        'discount': '#593BCE'
+        green: {
+          primary: '#036256',
+          secondary: '#0E8663'
+        },
+        'discount': '#593BCE',
+        'gray': {
+          'primary': '#F3F3F5'
+        }
       },
     },
   },
