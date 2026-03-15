@@ -26,8 +26,9 @@ export default {
         "card-image": "12.5rem"
       },
       colors: {
-        'price': '#036256',
-        'price-hover': '#0E8663'
+        'primary-green': '#036256',
+        'secondary-green': '#0E8663',
+        'discount': '#593BCE'
       },
     },
   },
