@@ -31,8 +31,6 @@
             <CheckboxInput title="Condition" :options="['new', 'refurbished', 'used']" v-model="filters.brands" />
           </li>
         </ul>
-
-        {{ filters }}
       </fieldset>
     </template>
 
@@ -41,13 +39,16 @@
         <p v-if="loading" class="text-sm text-gray-600">Loading...</p>
         <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>
         <template v-else>
-          <p class="text-sm text-gray-600 mb-4">{{ products.length }} products found</p>
+          <p class="text-sm text-gray-600 mb-4">{{ total }} products found</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
             <ProductCard v-for="product in products" :key="product.id" :image-url="product.image_url"
               :name="product.name" :colors="product.colors ?? []" :discount="product.discount_percent ?? 0"
               :regular-price="product.base_price" :discounted-price="product.discounted_price"
               :bestseller="product.bestseller ?? false" />
           </div>
+
+          <!-- TODO: Pagination component-->
+          <button>Load More</button>
         </template>
       </div>
     </template>
@@ -82,5 +83,5 @@ const productsQuery = computed<ProductQuery>(() => ({
   search: debouncedSearchQuery.value,
 }))
 
-const { products, loading, error } = useProducts(productsQuery)
+const { products, total, loading, error } = useProducts(productsQuery)
 </script>

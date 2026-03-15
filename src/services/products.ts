@@ -1,10 +1,10 @@
 import type { Product, ProductQuery } from "@/types/product"
-import type { ApiResponse } from "@/types/types"
+import type { ApiResponse, PaginatedResponse } from "@/types/types"
 
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
-export async function fetchProducts(params: ProductQuery): Promise<Product[]> {
+export async function fetchProducts(params: ProductQuery): Promise<PaginatedResponse<Product>> {
     const query = new URLSearchParams()
 
     // Always required
@@ -25,7 +25,7 @@ export async function fetchProducts(params: ProductQuery): Promise<Product[]> {
         throw new Error(`Failed to fetch products: ${res.status}`)
     }
 
-    const json: ApiResponse<Product[]> = await res.json()
+    const json: ApiResponse<PaginatedResponse<Product>> = await res.json()
 
     if (!json.ok) {
         throw new Error('API returned an error')
