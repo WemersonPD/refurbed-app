@@ -37,38 +37,35 @@
     </template>
 
     <template #content>
-      <!-- TODO: ProductGrid organism + LoadMore -->
       <div>
-        <p class="text-sm text-gray-600 mb-4">6 products found</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
-          <ProductCard
-            :image-url="'https://files.refurbed.com/pi/iphone-15-1694604015.jpg?t=resize&h=600&w=600&t=convert&f=webp'"
-            :name="'iPhone 15'" :colors="['BLUE', 'RED', 'GREY', 'GREEN']" :discount="20" :regular-price="1000"
-            :discounted-price="750" :bestseller="true" />
-          <ProductCard
-            :image-url="'https://files.refurbed.com/pi/iphone-15-1694604015.jpg?t=resize&h=600&w=600&t=convert&f=webp'"
-            :name="'iPhone 15'" :colors="['BLUE', 'RED', 'GREY', 'GREEN']" :discount="0" :regular-price="1000"
-            :discounted-price="1000.242142" :bestseller="true" />
-          <ProductCard
-            :image-url="'https://files.refurbed.com/pi/iphone-15-1694604015.jpg?t=resize&h=600&w=600&t=convert&f=webp'"
-            :name="'iPhone 15'" :colors="['BLUE', 'RED', 'GREY', 'GREEN']" :discount="25" :regular-price="1000"
-            :discounted-price="750.214214" :bestseller="false" />
-        </div>
+        <p v-if="loading" class="text-sm text-gray-600">Loading...</p>
+        <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>
+        <template v-else>
+          <p class="text-sm text-gray-600 mb-4">{{ products.length }} products found</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
+            <ProductCard v-for="product in products" :key="product.id" :image-url="product.image_url"
+              :name="product.name" :colors="product.colors ?? []" :discount="product.discount_percent ?? 0"
+              :regular-price="product.base_price" :discounted-price="product.discounted_price"
+              :bestseller="product.bestseller ?? false" />
+          </div>
+        </template>
       </div>
     </template>
   </DefaultLayout>
 </template>
 
 <script setup lang="ts">
-import DefaultLayout from './components/templates/DefaultLayout.vue'
-import ProductCard from './components/molecules/ProductCard.vue'
-import SearchInput from './components/atoms/SearchInput.vue';
+import DefaultLayout from '@/components/templates/DefaultLayout.vue'
+import ProductCard from '@/components/molecules/ProductCard.vue'
+import SearchInput from '@/components/atoms/SearchInput.vue';
 
-import { reactive, ref, watch } from 'vue';
-import { useDebounce } from './composables/useDebounce';
-import CheckboxInput from './components/molecules/CheckboxInput.vue';
-import Text from './components/atoms/Text.vue';
-import RangeInput from './components/molecules/RangeInput.vue';
+import { computed, reactive, ref, watch } from 'vue';
+import { useDebounce } from '@/composables/useDebounce';
+import CheckboxInput from '@/components/molecules/CheckboxInput.vue';
+import Text from '@/components/atoms/Text.vue';
+import RangeInput from '@/components/molecules/RangeInput.vue';
+import { useProducts } from '@/composables/useProducts';
+import type { ProductQuery } from '@/types/product';
 
 const searchQuery = ref('')
 const debouncedSearchQuery = useDebounce(searchQuery)
@@ -79,8 +76,11 @@ const filters = reactive({
   conditions: []
 })
 
-// TODO: Remove it, it is just for testing the debounce.
-watch(debouncedSearchQuery, (val: string) => {
-  console.log("Debounce changed", val)
-})
+const productsQuery = computed<ProductQuery>(() => ({
+  limit: 5,
+  offset: 0,
+  search: debouncedSearchQuery.value,
+}))
+
+const { products, loading, error } = useProducts(productsQuery)
 </script>
