@@ -22,6 +22,9 @@
               v-model="filters.categories" />
           </li>
           <li>
+            <RangeInput :min="0" :max="500" title="Price Range"></RangeInput>
+          </li>
+          <li>
             <CheckboxInput title="Brand" :options="['apple', 'samsung', 'google', 'xiaomi']" v-model="filters.brands" />
           </li>
           <li>
@@ -65,6 +68,7 @@ import { reactive, ref, watch } from 'vue';
 import { useDebounce } from './composables/useDebounce';
 import CheckboxInput from './components/molecules/CheckboxInput.vue';
 import Text from './components/atoms/Text.vue';
+import RangeInput from './components/molecules/RangeInput.vue';
 
 const searchQuery = ref('')
 const debouncedSearchQuery = useDebounce(searchQuery)

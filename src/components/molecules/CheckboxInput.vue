@@ -1,10 +1,10 @@
 <template>
-    <fieldset>
+    <fieldset class="flex flex-col gap-3">
         <legend class="sr-only">
             {{ title }}
         </legend>
 
-        <Text variant="inter" class="block pb-3" tag="span">{{ capitalize(title) }}</Text>
+        <Text variant="inter" tag="span">{{ capitalize(title) }}</Text>
 
         <ul class="flex flex-col gap-2" role="list">
             <li v-for="option in options" :key="option">
