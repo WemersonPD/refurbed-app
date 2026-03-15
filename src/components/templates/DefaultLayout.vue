@@ -22,10 +22,9 @@
       </div>
     </div>
 
-    <footer role="contentinfo" class="px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-      <slot name="footer">
-      </slot>
-    </footer>
+    <!-- <footer role="contentinfo" class="px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+      <slot name="footer" />
+    </footer> -->
   </div>
 </template>
 
