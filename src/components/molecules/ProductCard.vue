@@ -14,6 +14,7 @@
          <Text tag="h3" variant="base">{{ name }}</Text>
 
          <div class="flex flex-col gap-4">
+            <!-- TODO: Add a field set here. -->
             <ul class="flex gap-1" aria-label="Available Colors">
                <li v-for="color in colors" :key="color">
                   <Radio :color="color" label="example" v-model="selectedColor" />

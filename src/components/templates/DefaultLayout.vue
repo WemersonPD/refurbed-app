@@ -1,6 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-white focus:text-green-700 focus:underline">
+  <div class="min-h-screen flex flex-col bg-gray-50">
+    <a href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-whit focus:underline">
       Skip to main content
     </a>
 
@@ -11,7 +12,7 @@
     <div class="px-4 sm:px-6 lg:px-8 pb-8">
       <div class="flex flex-col lg:flex-row gap-6">
         <aside aria-label="Filters" class="w-full lg:w-64 shrink-0">
-          <nav aria-label="Product filters">
+          <nav aria-label="Product filters" class="h-screen">
             <slot name="sidebar" />
           </nav>
         </aside>
@@ -21,13 +22,5 @@
         </main>
       </div>
     </div>
-
-    <!-- <footer role="contentinfo" class="px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-      <slot name="footer" />
-    </footer> -->
   </div>
 </template>
-
-<script setup>
-
-</script>
