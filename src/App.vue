@@ -54,7 +54,7 @@
         </div>
         <div v-else class="flex flex-col flex-1 min-h-full">
           <p class="text-sm text-gray-600 mb-4">{{ total }} products found</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3  gap-16 pb-8">
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16 pb-8 justify-items-center">
             <ProductCard v-for="product in products" :key="product.id" :image-url="product.image_url"
               :name="product.name" :colors="product.colors ?? []" :discount="product.discount_percent ?? 0"
               :regular-price="product.base_price" :discounted-price="product.discounted_price"
