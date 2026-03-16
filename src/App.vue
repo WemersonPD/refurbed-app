@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import DefaultLayout from "@/components/templates/DefaultLayout.vue";
 import ProductCard from "@/components/molecules/ProductCard.vue";
-import SearchInput from "@/components/atoms/SearchInput.vue";
+import SearchInput from "@/components/molecules/SearchInput.vue";
 
 import { computed, reactive, ref, watch } from "vue";
 import { useDebounce } from "@/composables/useDebounce";
