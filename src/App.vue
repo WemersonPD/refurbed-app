@@ -35,6 +35,7 @@
     </template>
 
     <template #content>
+      <!-- TODO: ProductsGrid organism-->
         <p v-if="loading" class="text-sm text-gray-600">Loading...</p>
         <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>
         <div v-else-if="products.length === 0"
