@@ -35,9 +35,23 @@
     </template>
 
     <template #content>
-      <div>
         <p v-if="loading" class="text-sm text-gray-600">Loading...</p>
         <p v-else-if="error" class="text-sm text-red-600">{{ error }}</p>
+        <div v-else-if="products.length === 0"
+          role="status"
+          class="flex flex-col items-center justify-center gap-4 py-20">
+          <img src="@/assets/icons/not-found-icon.png" alt="" aria-hidden="true" width="106" height="106">
+
+          <Text tag="span" variant="inter">No products found</Text>
+          <div class="flex flex-col gap-2">
+            <Text tag="span" variant="inter-light" class="text-center text-gray-500">We couldn't find any products matching your current filters.</Text>
+            <Text tag="span" variant="inter-light" class="text-center text-gray-500">Try adjusting your search criteria.</Text>
+          </div>
+          
+          <Button @click="clearFilters" class="max-w-64">
+            <Text variant="inter" tag="span">Clear all filters</Text>
+          </Button>
+        </div>
         <template v-else>
           <p class="text-sm text-gray-600 mb-4">{{ total }} products found</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
@@ -53,7 +67,6 @@
             </Button>
           </div>
         </template>
-      </div>
     </template>
   </DefaultLayout>
 </template>
@@ -121,4 +134,13 @@ const { products, total, loading, error } = useProducts(productsQuery);
 const loadMore = () => {
 	offset.value += 6;
 };
+
+function clearFilters() {
+	searchQuery.value = "";
+	minVal.value = 0;
+	maxVal.value = 1499;
+	filters.categories = [];
+	filters.brands = [];
+	filters.conditions = [];
+}
 </script>
