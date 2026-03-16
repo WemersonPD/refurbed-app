@@ -32,8 +32,9 @@ export default {
         },
         'discount': '#593BCE',
         'gray': {
-          'primary': '#F3F3F5'
-        }
+          'primary': '#F3F3F5',
+          'card': '#F9F9F7'
+        },
       },
     },
   },

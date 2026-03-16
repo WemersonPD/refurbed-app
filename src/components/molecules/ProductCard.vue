@@ -1,7 +1,9 @@
 <template>
    <article
       class="group w-card h-card flex flex-col gap-4 p-2 rounded-2xl bg-white hover:shadow-xl cursor-pointer relative overflow-visible">
-      <img :src="imageUrl" :alt="name" class="w-card-image h-card-image" loading="lazy">
+      <div class="w-card-image h-card-image bg-gray-card rounded-xl flex items-center justify-center">
+         <img :src="imageUrl" :alt="name" class="w-[194px] h-[173px] object-contain mix-blend-multiply" loading="lazy">
+      </div>
 
       <Text v-if="bestseller" variant="sm" tag="span"
          class="bg-green-primary text-white absolute left-0 top-0 px-2 py-1 rounded-ss-md text-xs">Bestseller</Text>
@@ -39,47 +41,48 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import Text from '../atoms/Text.vue';
-import { formatPrice } from '../../utils/number';
-import Radio from '../atoms/RadioInput.vue';
+import { computed, ref } from "vue";
+import Text from "../atoms/Text.vue";
+import { formatPrice } from "../../utils/number";
+import Radio from "../atoms/RadioInput.vue";
 
 const props = defineProps({
-   imageUrl: {
-      type: String,
-      required: true
-   },
-   name: {
-      type: String,
-      required: true
-   },
-   colors: {
-      type: Array<string>,
-      required: true,
-   },
-   regularPrice: {
-      type: Number,
-      required: true
-   },
-   discountedPrice: {
-      type: Number,
-      required: true
-   },
-   discount: {
-      type: Number,
-      required: true
-   },
-   bestseller: {
-      type: Boolean,
-      default: false
-   }
-})
+	imageUrl: {
+		type: String,
+		required: true,
+	},
+	name: {
+		type: String,
+		required: true,
+	},
+	colors: {
+		type: Array<string>,
+		required: true,
+	},
+	regularPrice: {
+		type: Number,
+		required: true,
+	},
+	discountedPrice: {
+		type: Number,
+		required: true,
+	},
+	discount: {
+		type: Number,
+		required: true,
+	},
+	bestseller: {
+		type: Boolean,
+		default: false,
+	},
+});
 
 const selectedColor = ref(props.colors[0]);
 
 const formattedRegularPrice = computed(() => formatPrice(props.regularPrice));
 const hasDiscount = computed(() => !!props.discount);
-const formattedDiscountedPrice = computed(() => formatPrice(props.discountedPrice));
+const formattedDiscountedPrice = computed(() =>
+	formatPrice(props.discountedPrice),
+);
 const formattedDiscount = computed(() => `-${props.discount}%`);
-
 </script>
