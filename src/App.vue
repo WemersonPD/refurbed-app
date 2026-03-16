@@ -2,7 +2,7 @@
   <DefaultLayout>
     <template #search>
       <!-- TODO: SearchBar organism -->
-      <div class="w-1/2">
+      <div class="w-full lg:w-1/2">
         <SearchInput v-model="searchQuery" />
       </div>
     </template>
@@ -52,21 +52,21 @@
             <Text variant="inter" tag="span">Clear all filters</Text>
           </Button>
         </div>
-        <template v-else>
+        <div v-else class="flex flex-col flex-1 min-h-full">
           <p class="text-sm text-gray-600 mb-4">{{ total }} products found</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-16">
+          <div class="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3  gap-16 pb-8">
             <ProductCard v-for="product in products" :key="product.id" :image-url="product.image_url"
               :name="product.name" :colors="product.colors ?? []" :discount="product.discount_percent ?? 0"
               :regular-price="product.base_price" :discounted-price="product.discounted_price"
               :bestseller="product.bestseller ?? false" />
           </div>
 
-          <div v-if="showLoadMoreButton" class="flex justify-center">
+          <div v-if="showLoadMoreButton" class="flex justify-center mt-auto pt-6">
             <Button @click="loadMore" class="max-w-64">
               <Text variant="inter" tag="span">Load more</Text>
             </Button>
           </div>
-        </template>
+        </div>
     </template>
   </DefaultLayout>
 </template>
