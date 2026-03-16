@@ -4,11 +4,11 @@
 
         <Text variant="inter" tag="span">{{ capitalize(title) }}</Text>
 
-        <div class="relative h-4">
-            <div class="absolute inset-0 rounded-full bg-gray-200" />
-            <div class="absolute h-full rounded-full bg-gray-800" :style="{
-                left: `calc(${(minVal - min) / (max - min) * 100}% - 0.375rem)`,
-                right: `calc(${100 - (maxVal - min) / (max - min) * 100}% - 0.375rem)`
+        <div class="relative h-4 px-1.5">
+            <div class="absolute inset-x-1.5 inset-y-0 rounded-full bg-gray-200" />
+            <div class="absolute inset-y-0 rounded-full bg-gray-800" :style="{
+                left: `calc(0.375rem + ${(minVal - min) / (max - min) * 100}%)`,
+                right: `calc(0.375rem + ${100 - (maxVal - min) / (max - min) * 100}%)`
             }" />
 
             <input type="range" :min="min" :max="max" :value="minVal" aria-label="Minimum price" class="range-thumb"
@@ -20,39 +20,38 @@
         <div class="flex justify-between">
             <div class="flex flex-col gap-2">
                 <Text variant="inter-light" tag="span">Minimum:</Text>
-                <Text variant="inter-light" tag="span">{{ formatPrice(min) }}</Text>
+                <Text variant="inter-light" tag="span">{{ formatPrice(minVal) }}</Text>
             </div>
             <div class="flex flex-col gap-2 text-right">
                 <Text variant="inter-light" tag="span">Maximum:</Text>
-                <Text variant="inter-light" tag="span">{{ formatPrice(max) }}</Text>
+                <Text variant="inter-light" tag="span">{{ formatPrice(maxVal) }}</Text>
             </div>
         </div>
     </fieldset>
 </template>
 
 <script setup lang="ts">
-import { capitalize } from 'vue';
-import Text from '../atoms/Text.vue';
-import { formatPrice } from '../../utils/number';
+import { capitalize } from "vue";
+import Text from "../atoms/Text.vue";
+import { formatPrice } from "../../utils/number";
 
 defineProps({
-    title: {
-        type: String,
-        required: true
-    },
-    min: {
-        type: Number,
-        required: true
-    },
-    max: {
-        type: Number,
-        required: true
-    },
-})
+	title: {
+		type: String,
+		required: true,
+	},
+	min: {
+		type: Number,
+		required: true,
+	},
+	max: {
+		type: Number,
+		required: true,
+	},
+});
 
-const minVal = defineModel<number>('minVal', { default: 0 })
-const maxVal = defineModel<number>('maxVal', { default: 500 })
-
+const minVal = defineModel<number>("minVal", { default: 0 });
+const maxVal = defineModel<number>("maxVal", { default: 1499 });
 </script>
 
 <style scoped>

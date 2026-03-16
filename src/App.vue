@@ -22,7 +22,7 @@
               v-model="filters.categories" />
           </li>
           <li>
-            <RangeInput :min="0" :max="500" title="Price Range"></RangeInput>
+            <RangeInput :min="0" :max="1499" title="Price Range" v-model:min-val="minVal" v-model:max-val="maxVal"  />
           </li>
           <li>
             <CheckboxInput title="Brand" :options="Object.values(Brand)" v-model="filters.brands" />
@@ -71,6 +71,12 @@ import { Brand, Category, Condition, type ProductQuery } from "@/types/product";
 const searchQuery = ref("");
 const debouncedSearchQuery = useDebounce(searchQuery);
 
+const minVal = ref(0);
+const debouncedMinVal = useDebounce(minVal);
+
+const maxVal = ref(1499);
+const debouncedMaxVal = useDebounce(maxVal);
+
 const filters = reactive({
 	categories: [],
 	brands: [],
@@ -84,6 +90,8 @@ const productsQuery = computed<ProductQuery>(() => ({
 	categories: filters.categories,
 	brands: filters.brands,
 	conditions: filters.conditions,
+	minPrice: debouncedMinVal.value,
+	maxPrice: debouncedMaxVal.value,
 }));
 
 const { products, total, loading, error } = useProducts(productsQuery);
