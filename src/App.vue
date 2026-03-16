@@ -47,8 +47,11 @@
               :bestseller="product.bestseller ?? false" />
           </div>
 
-          <!-- TODO: Pagination component-->
-          <button>Load More</button>
+          <div v-if="showLoadMoreButton" class="flex justify-center">
+            <Button @click="loadMore" class="max-w-64">
+              <Text variant="inter" tag="span">Load more</Text>
+            </Button>
+          </div>
         </template>
       </div>
     </template>
@@ -60,13 +63,14 @@ import DefaultLayout from "@/components/templates/DefaultLayout.vue";
 import ProductCard from "@/components/molecules/ProductCard.vue";
 import SearchInput from "@/components/atoms/SearchInput.vue";
 
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { useDebounce } from "@/composables/useDebounce";
 import CheckboxInput from "@/components/molecules/CheckboxInput.vue";
 import Text from "@/components/atoms/Text.vue";
 import RangeInput from "@/components/molecules/RangeInput.vue";
 import { useProducts } from "@/composables/useProducts";
 import { Brand, Category, Condition, type ProductQuery } from "@/types/product";
+import Button from "./components/atoms/Button.vue";
 
 const searchQuery = ref("");
 const debouncedSearchQuery = useDebounce(searchQuery);
@@ -83,9 +87,9 @@ const filters = reactive({
 	conditions: [],
 });
 
-const productsQuery = computed<ProductQuery>(() => ({
-	limit: 5,
-	offset: 0,
+const offset = ref(0);
+
+const activeFilters = computed(() => ({
 	search: debouncedSearchQuery.value,
 	categories: filters.categories,
 	brands: filters.brands,
@@ -94,5 +98,27 @@ const productsQuery = computed<ProductQuery>(() => ({
 	maxPrice: debouncedMaxVal.value,
 }));
 
+const productsQuery = computed<ProductQuery>(() => ({
+	limit: 6,
+	offset: offset.value,
+	...activeFilters.value,
+}));
+
+const showLoadMoreButton = computed(
+	() => offset.value + productsQuery.value.limit < total.value,
+);
+
+watch(
+	activeFilters,
+	() => {
+		offset.value = 0;
+	},
+	{ deep: true },
+);
+
 const { products, total, loading, error } = useProducts(productsQuery);
+
+const loadMore = () => {
+	offset.value += 6;
+};
 </script>

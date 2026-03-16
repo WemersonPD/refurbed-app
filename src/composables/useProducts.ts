@@ -3,8 +3,6 @@ import { fetchProducts } from "@/services/products";
 import type { Product, ProductQuery } from "@/types/product";
 
 export function useProducts(query: Ref<ProductQuery>) {
-	const limit = ref(5);
-	const offset = ref(0);
 	const total = ref(0);
 
 	const products = ref<Product[]>([]);
@@ -19,9 +17,12 @@ export function useProducts(query: Ref<ProductQuery>) {
 		try {
 			const response = await fetchProducts(query.value);
 
-			products.value = response.data;
-			limit.value = response.limit;
-			offset.value = response.offset;
+			if (query.value.offset > 0) {
+				products.value.push(...response.data);
+			} else {
+				products.value = response.data;
+			}
+
 			total.value = response.total;
 		} catch (e) {
 			error.value = e instanceof Error ? e.message : "Unknown error";
@@ -33,5 +34,5 @@ export function useProducts(query: Ref<ProductQuery>) {
 	// Re-fetch whenever query params change (deep watch for nested object changes)
 	watch(query, load, { deep: true, immediate: true });
 
-	return { products, limit, offset, total, loading, error };
+	return { products, total, loading, error };
 }
